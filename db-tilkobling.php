@@ -1,6 +1,6 @@
 <?php
 /* kobler til databasen */
-$host = "mariadb";
+$host = "MariaDB";
 $user = "tajog5618";    // endre til dokploy-bruker ved behov
 $pass = "08d6tajog5618";
 $dbnavn = "tajog5618";
