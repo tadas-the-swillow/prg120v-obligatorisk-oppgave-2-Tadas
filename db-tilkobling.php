@@ -1,9 +1,11 @@
-<?php
-/* kobler til databasen */
-$host = "mariadb";
-$user = "tajog5618";    // endre til dokploy-bruker ved behov
-$pass = "08d6tajog5618";
-$dbnavn = "tajog5618";
+<?php  /* db-tilkobling */
+/*
+/*  Programmet foretar tilkobling til database-server og valg av database
+*/
+$host = getenv('DB_HOST');
+$username = getenv('DB_USER');
+$password = getenv('DB_PASSWORD');
+$database = getenv('DB_DATABASE');
 
-$db = mysqli_connect($host, $user, $pass, $dbnavn) or die ("Ikke kontakt med database-server");
-?>
+ $db=mysqli_connect($host,$username,$password,$database) or die ("ikke kontakt med database-server");
+    /* tilkobling til database-serveren utført */
