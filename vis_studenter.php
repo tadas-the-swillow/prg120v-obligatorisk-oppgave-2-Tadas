@@ -1,12 +1,20 @@
-<?php include("db.php"); ?>
-<h2>Alle studenter</h2>
+<?php /* vis-studenter */ ?>
+<h3>Alle studenter</h3>
 
-<table border="1">
-<tr><th>Brukernavn</th><th>Fornavn</th><th>Etternavn</th><th>Klassekode</th></tr>
 <?php
-$result = $conn->query("SELECT * FROM student");
-while ($row = $result->fetch_assoc()) {
-  echo "<tr><td>{$row['brukernavn']}</td><td>{$row['fornavn']}</td><td>{$row['etternavn']}</td><td>{$row['klassekode']}</td></tr>";
+include("db-tilkobling.php");
+
+$sql = "SELECT * FROM student;";
+$resultat = mysqli_query($db, $sql);
+
+print ("<table border='1'>");
+print ("<tr><th>Brukernavn</th><th>Fornavn</th><th>Etternavn</th><th>Klassekode</th></tr>");
+while ($rad = mysqli_fetch_array($resultat)) {
+  $bn = $rad["brukernavn"];
+  $fn = $rad["fornavn"];
+  $en = $rad["etternavn"];
+  $kk = $rad["klassekode"];
+  print ("<tr><td>$bn</td><td>$fn</td><td>$en</td><td>$kk</td></tr>");
 }
+print ("</table>");
 ?>
-</table>

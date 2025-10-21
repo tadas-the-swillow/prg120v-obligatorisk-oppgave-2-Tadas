@@ -1,45 +1,48 @@
-<?php include("db.php"); ?>
+<?php /* registrer-student */ ?>
 
-<h2>Registrer ny student</h2>
+<h3>Registrer student</h3>
 
-<form method="post">
-  Brukernavn: <input type="text" name="brukernavn" required><br>
-  Fornavn: <input type="text" name="fornavn" required><br>
-  Etternavn: <input type="text" name="etternavn" required><br>
-
-  Klassekode:
+<form method="post" action="">
+  Brukernavn <input type="text" name="brukernavn" required /> <br/>
+  Fornavn <input type="text" name="fornavn" required /> <br/>
+  Etternavn <input type="text" name="etternavn" required /> <br/>
+  Klassekode 
   <select name="klassekode" required>
     <option value="">Velg klasse</option>
     <?php
-      $result = $conn->query("SELECT klassekode FROM klasse");
-      while ($row = $result->fetch_assoc()) {
-        echo "<option value='{$row['klassekode']}'>{$row['klassekode']}</option>";
+      include("db-tilkobling.php");
+      $sql = "SELECT * FROM klasse;";
+      $resultat = mysqli_query($db, $sql);
+      while ($rad = mysqli_fetch_array($resultat)) {
+        $kode = $rad["klassekode"];
+        print ("<option value='$kode'>$kode</option>");
       }
     ?>
   </select>
-  <br>
-  <input type="submit" name="lagre" value="Lagre">
+  <br/>
+  <input type="submit" name="registrerStudentKnapp" value="Registrer student" />
+  <input type="reset" value="Nullstill" />
 </form>
 
 <?php
-if (isset($_POST['lagre'])) {
-  $brukernavn = $_POST['brukernavn'];
-  $fornavn = $_POST['fornavn'];
-  $etternavn = $_POST['etternavn'];
-  $klassekode = $_POST['klassekode'];
+if (isset($_POST["registrerStudentKnapp"])) {
+  $brukernavn = $_POST["brukernavn"];
+  $fornavn = $_POST["fornavn"];
+  $etternavn = $_POST["etternavn"];
+  $klassekode = $_POST["klassekode"];
 
-  $sjekk = $conn->prepare("SELECT * FROM student WHERE brukernavn = ?");
-  $sjekk->bind_param("s", $brukernavn);
-  $sjekk->execute();
-  $res = $sjekk->get_result();
+  include("db-tilkobling.php");
 
-  if ($res->num_rows > 0) {
-    echo "<p style='color:red;'>Brukernavn finnes allerede!</p>";
+  $sql = "SELECT * FROM student WHERE brukernavn='$brukernavn';";
+  $resultat = mysqli_query($db, $sql);
+  $antall = mysqli_num_rows($resultat);
+
+  if ($antall != 0) {
+    print ("Brukernavn finnes allerede.");
   } else {
-    $stmt = $conn->prepare("INSERT INTO student VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $brukernavn, $fornavn, $etternavn, $klassekode);
-    $stmt->execute();
-    echo "<p>Student registrert!</p>";
+    $sql = "INSERT INTO student VALUES('$brukernavn','$fornavn','$etternavn','$klassekode');";
+    mysqli_query($db, $sql) or die("Ikke mulig å registrere studenten.");
+    print ("Student $fornavn $etternavn er nå registrert.");
   }
 }
 ?>

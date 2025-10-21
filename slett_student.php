@@ -1,25 +1,30 @@
-<?php include("db.php"); ?>
+<?php /* slett-student */ ?>
 
-<h2>Slett student</h2>
-<form method="post" onsubmit="return confirm('Er du sikker på at du vil slette studenten?');">
+<h3>Slett student</h3>
+
+<form method="post" action="" onsubmit="return confirm('Er du sikker på at du vil slette studenten?');">
   <select name="brukernavn" required>
     <option value="">Velg student</option>
     <?php
-      $result = $conn->query("SELECT brukernavn FROM student");
-      while ($row = $result->fetch_assoc()) {
-        echo "<option value='{$row['brukernavn']}'>{$row['brukernavn']}</option>";
+      include("db-tilkobling.php");
+      $sql = "SELECT * FROM student;";
+      $resultat = mysqli_query($db, $sql);
+      while ($rad = mysqli_fetch_array($resultat)) {
+        $bn = $rad["brukernavn"];
+        print ("<option value='$bn'>$bn</option>");
       }
     ?>
   </select>
-  <input type="submit" name="slett" value="Slett">
+  <input type="submit" name="slettStudentKnapp" value="Slett student" />
 </form>
 
 <?php
-if (isset($_POST['slett'])) {
-  $brukernavn = $_POST['brukernavn'];
-  $stmt = $conn->prepare("DELETE FROM student WHERE brukernavn = ?");
-  $stmt->bind_param("s", $brukernavn);
-  $stmt->execute();
-  echo "<p>Student slettet.</p>";
+if (isset($_POST["slettStudentKnapp"])) {
+  $brukernavn = $_POST["brukernavn"];
+
+  include("db-tilkobling.php");
+  $sql = "DELETE FROM student WHERE brukernavn='$brukernavn';";
+  mysqli_query($db, $sql) or die("Ikke mulig å slette studenten.");
+  print ("Student $brukernavn er slettet.");
 }
 ?>

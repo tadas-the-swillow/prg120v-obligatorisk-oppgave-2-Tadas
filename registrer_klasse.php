@@ -1,32 +1,33 @@
-<?php include("db.php"); ?>
+<?php /* registrer-klasse */ ?>
 
-<h2>Registrer ny klasse</h2>
+<h3>Registrer klasse</h3>
 
-<form method="post">
-  Klassekode: <input type="text" name="klassekode" required><br>
-  Klassenavn: <input type="text" name="klassenavn" required><br>
-  Studiumkode: <input type="text" name="studiumkode" required><br>
-  <input type="submit" name="lagre" value="Lagre">
+<form method="post" action="">
+  Klassekode <input type="text" name="klassekode" required /> <br/>
+  Klassenavn <input type="text" name="klassenavn" required /> <br/>
+  Studiumkode <input type="text" name="studiumkode" required /> <br/>
+  <input type="submit" name="registrerKlasseKnapp" value="Registrer klasse" />
+  <input type="reset" value="Nullstill" />
 </form>
 
 <?php
-if (isset($_POST['lagre'])) {
-  $kode = $_POST['klassekode'];
-  $navn = $_POST['klassenavn'];
-  $studium = $_POST['studiumkode'];
+if (isset($_POST["registrerKlasseKnapp"])) {
+  $klassekode = $_POST["klassekode"];
+  $klassenavn = $_POST["klassenavn"];
+  $studiumkode = $_POST["studiumkode"];
 
-  $sjekk = $conn->prepare("SELECT * FROM klasse WHERE klassekode = ?");
-  $sjekk->bind_param("s", $kode);
-  $sjekk->execute();
-  $resultat = $sjekk->get_result();
+  include("db-tilkobling.php");
 
-  if ($resultat->num_rows > 0) {
-    echo "<p style='color:red;'>Klassekode finnes allerede!</p>";
+  $sql = "SELECT * FROM klasse WHERE klassekode='$klassekode';";
+  $resultat = mysqli_query($db, $sql);
+  $antall = mysqli_num_rows($resultat);
+
+  if ($antall != 0) {
+    print ("Klassekode finnes allerede.");
   } else {
-    $stmt = $conn->prepare("INSERT INTO klasse VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $kode, $navn, $studium);
-    $stmt->execute();
-    echo "<p>Klasse registrert!</p>";
+    $sql = "INSERT INTO klasse VALUES('$klassekode', '$klassenavn', '$studiumkode');";
+    mysqli_query($db, $sql) or die("Ikke mulig å registrere klassen.");
+    print ("Klassen $klassekode er nå registrert.");
   }
 }
 ?>

@@ -1,12 +1,19 @@
-<?php include("db.php"); ?>
-<h2>Alle klasser</h2>
+<?php /* vis-klasser */ ?>
+<h3>Alle klasser</h3>
 
-<table border="1">
-<tr><th>Klassekode</th><th>Klassenavn</th><th>Studiumkode</th></tr>
 <?php
-$result = $conn->query("SELECT * FROM klasse");
-while ($row = $result->fetch_assoc()) {
-  echo "<tr><td>{$row['klassekode']}</td><td>{$row['klassenavn']}</td><td>{$row['studiumkode']}</td></tr>";
+include("db-tilkobling.php");
+
+$sql = "SELECT * FROM klasse;";
+$resultat = mysqli_query($db, $sql);
+
+print ("<table border='1'>");
+print ("<tr><th>Klassekode</th><th>Klassenavn</th><th>Studiumkode</th></tr>");
+while ($rad = mysqli_fetch_array($resultat)) {
+  $kode = $rad["klassekode"];
+  $navn = $rad["klassenavn"];
+  $studium = $rad["studiumkode"];
+  print ("<tr><td>$kode</td><td>$navn</td><td>$studium</td></tr>");
 }
+print ("</table>");
 ?>
-</table>

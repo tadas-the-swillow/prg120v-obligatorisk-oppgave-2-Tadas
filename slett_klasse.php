@@ -1,36 +1,39 @@
-<?php include("db.php"); ?>
+<?php /* slett-klasse */ ?>
 
-<h2>Slett klasse</h2>
-<form method="post" onsubmit="return confirm('Er du sikker på at du vil slette klassen?');">
+<h3>Slett klasse</h3>
+
+<form method="post" action="" onsubmit="return confirm('Er du sikker på at du vil slette klassen?');">
   <select name="klassekode" required>
     <option value="">Velg klasse</option>
     <?php
-      $result = $conn->query("SELECT klassekode FROM klasse");
-      while ($row = $result->fetch_assoc()) {
-        echo "<option value='{$row['klassekode']}'>{$row['klassekode']}</option>";
+      include("db-tilkobling.php");
+      $sql = "SELECT * FROM klasse;";
+      $resultat = mysqli_query($db, $sql);
+      while ($rad = mysqli_fetch_array($resultat)) {
+        $kode = $rad["klassekode"];
+        print ("<option value='$kode'>$kode</option>");
       }
     ?>
   </select>
-  <input type="submit" name="slett" value="Slett">
+  <input type="submit" name="slettKlasseKnapp" value="Slett klasse" />
 </form>
 
 <?php
-if (isset($_POST['slett'])) {
-  $kode = $_POST['klassekode'];
+if (isset($_POST["slettKlasseKnapp"])) {
+  $klassekode = $_POST["klassekode"];
+  include("db-tilkobling.php");
 
-  // sjekk om det finnes studenter
-  $sjekk = $conn->prepare("SELECT * FROM student WHERE klassekode = ?");
-  $sjekk->bind_param("s", $kode);
-  $sjekk->execute();
-  $res = $sjekk->get_result();
+  // sjekk om studenter finnes i klassen
+  $sql = "SELECT * FROM student WHERE klassekode='$klassekode';";
+  $resultat = mysqli_query($db, $sql);
+  $antall = mysqli_num_rows($resultat);
 
-  if ($res->num_rows > 0) {
-    echo "<p style='color:red;'>Kan ikke slette klasse som har studenter!</p>";
+  if ($antall > 0) {
+    print ("Kan ikke slette klassen fordi det finnes studenter i den.");
   } else {
-    $stmt = $conn->prepare("DELETE FROM klasse WHERE klassekode = ?");
-    $stmt->bind_param("s", $kode);
-    $stmt->execute();
-    echo "<p>Klasse slettet.</p>";
+    $sql = "DELETE FROM klasse WHERE klassekode='$klassekode';";
+    mysqli_query($db, $sql) or die("Ikke mulig å slette klassen.");
+    print ("Klasse $klassekode er slettet.");
   }
 }
 ?>
