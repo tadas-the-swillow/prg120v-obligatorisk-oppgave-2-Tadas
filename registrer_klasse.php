@@ -3,7 +3,7 @@
 <div style="display: flex; align-items: center; margin-bottom: 15px;">
   <!-- Tilbakeknapp -->
   <a href="index.php" 
-     style="text-decoration: none; background-color: #607D8B; color: white; padding: 5px 10px; border-radius: 5px; margin-right: 10px;">
+     style="text-decoration: none; background-color: #0080ff; color: white; padding: 5px 10px; border-radius: 5px; margin-right: 10px;">
      ← Tilbake
   </a>
 

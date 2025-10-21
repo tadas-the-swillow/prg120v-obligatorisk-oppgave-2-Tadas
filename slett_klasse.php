@@ -1,6 +1,15 @@
 <?php /* slett-klasse */ ?>
 
-<h3>Slett klasse</h3>
+<div style="display: flex; align-items: center; margin-bottom: 15px;">
+  <!-- Tilbakeknapp -->
+  <a href="index.php" 
+     style="text-decoration: none; background-color: #0080ff; color: white; padding: 5px 10px; border-radius: 5px; margin-right: 10px;">
+     ← Tilbake
+  </a>
+
+  <!-- Overskrift -->
+  <h3 style="margin: 0;">Slett klasse</h3>
+</div>
 
 <form method="post" action="" onsubmit="return confirm('Er du sikker på at du vil slette klassen?');">
   <select name="klassekode" required>
