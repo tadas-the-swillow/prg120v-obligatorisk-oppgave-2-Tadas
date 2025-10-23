@@ -6,7 +6,7 @@
 </head>
 <body style="font-family: Arial, sans-serif; background-color: #f2f2f2; margin: 0; padding: 20px;">
 
-  <h1 style="text-align: center; color: #333;">PRG120V - Vedlikehold av data</h1>
+  <h1 style="text-align: center; color: #333;">PRG120V - Obligatorisk oppgave 2</h1>
 
   <ul style="list-style-type: none; padding: 0; max-width: 400px; margin: 30px auto;">
     <li style="margin: 10px 0;">
