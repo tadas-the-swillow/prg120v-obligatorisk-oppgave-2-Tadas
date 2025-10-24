@@ -11,20 +11,16 @@
   <h3 style="margin: 0;">Slett student</h3>
 </div>
 
-<form method="post" action="" onsubmit="return confirm('Er du sikker på at du vil slette studenten?');">
-  <select name="brukernavn" required>
-    <option value="">Velg student</option>
-    <?php
-      include("db-tilkobling.php");
-      $sql = "SELECT * FROM student;";
-      $resultat = mysqli_query($db, $sql);
-      while ($rad = mysqli_fetch_array($resultat)) {
-        $bn = $rad["brukernavn"];
-        print ("<option value='$bn'>$bn</option>");
-      }
+<form method="post" action="">
+  Velg student som skal slettes:
+  <select name="brukernavn">
+    <?php 
+      include("dynamiske-funksjoner.php"); 
+      listeboksBrukernavn(); 
     ?>
-  </select>
-  <input type="submit" name="slettStudentKnapp" value="Slett student" />
+  </select><br/>
+  <input type="submit" name="slettStudentKnapp" value="Slett student" 
+         onclick="return confirm('Er du sikker på at du vil slette denne studenten?');">
 </form>
 
 <?php
