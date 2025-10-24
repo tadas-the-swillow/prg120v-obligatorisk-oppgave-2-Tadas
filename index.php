@@ -4,7 +4,14 @@
   <meta charset="UTF-8">
   <title>PRG120V - Obligatorisk oppgave 2</title>
 </head>
-<body style="font-family: Arial, sans-serif; background-color: #f2f2f2; margin: 0; padding: 20px;">
+<body style="font-family: Arial, sans-serif; 
+             margin: 0; 
+             padding: 20px; 
+             /* Enkel regnbuebakgrunn som lineær gradient */
+             background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet); 
+             background-size: 400% 400%;
+             animation: rainbow 10s linear infinite;
+             ">
 
   <h1 style="text-align: center; color: #333;">PRG120V - Obligatorisk oppgave 2</h1>
 
@@ -46,6 +53,15 @@
       </a>
     </li>
   </ul>
+
+  <!-- Enkel inline keyframes animasjon for regnbuen -->
+  <style>
+    @keyframes rainbow {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+  </style>
 
 </body>
 </html>
