@@ -16,15 +16,14 @@
   Fornavn <input type="text" name="fornavn" required /><br/>
   Etternavn <input type="text" name="etternavn" required /><br/>
   Klassekode 
-  <select name="klassekode">
-    <?php 
-      include("dynamiske-funksjoner.php"); 
-      listeboksKlassekode(); 
-    ?>
-  </select><br/>
+  <select name="klassekode" required>
+    <option value="">Velg klasse</option>
+    <?php include("dynamiske-funksjoner.php"); listeboksKlassekode(); ?>
+  </select>
+  <br/><br/>
   <input type="submit" name="registrerStudentKnapp" value="Registrer student" />
+  <input type="reset" value="Nullstill" />
 </form>
-
 
 <?php
 if (isset($_POST["registrerStudentKnapp"])) {
@@ -40,11 +39,11 @@ if (isset($_POST["registrerStudentKnapp"])) {
   $antall = mysqli_num_rows($resultat);
 
   if ($antall != 0) {
-    print ("Brukernavn finnes allerede.");
+    print("Brukernavn finnes allerede.");
   } else {
-    $sql = "INSERT INTO student VALUES('$brukernavn','$fornavn','$etternavn','$klassekode');";
-    mysqli_query($db, $sql) or die("Ikke mulig å registrere studenten.");
-    print ("Student $fornavn $etternavn er nå registrert.");
+    $sql = "INSERT INTO student VALUES('$brukernavn', '$fornavn', '$etternavn', '$klassekode');";
+    mysqli_query($db, $sql) or die("Ikke mulig å registrere student.");
+    print("Studenten $fornavn $etternavn er nå registrert i klasse $klassekode.");
   }
 }
 ?>

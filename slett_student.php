@@ -11,25 +11,23 @@
   <h3 style="margin: 0;">Slett student</h3>
 </div>
 
-<form method="post" action="">
-  Velg student som skal slettes:
-  <select name="brukernavn">
-    <?php 
-      include("dynamiske-funksjoner.php"); 
-      listeboksBrukernavn(); 
-    ?>
-  </select><br/>
-  <input type="submit" name="slettStudentKnapp" value="Slett student" 
-         onclick="return confirm('Er du sikker på at du vil slette denne studenten?');">
+<form method="post" action="" onsubmit="return confirm('Er du sikker på at du vil slette denne studenten?');">
+  Velg student:
+  <select name="brukernavn" required>
+    <option value="">Velg student</option>
+    <?php include("dynamiske-funksjoner.php"); listeboksBrukernavn(); ?>
+  </select>
+  <br/><br/>
+  <input type="submit" name="slettStudentKnapp" value="Slett student" />
 </form>
 
 <?php
 if (isset($_POST["slettStudentKnapp"])) {
   $brukernavn = $_POST["brukernavn"];
-
   include("db-tilkobling.php");
+
   $sql = "DELETE FROM student WHERE brukernavn='$brukernavn';";
-  mysqli_query($db, $sql) or die("Ikke mulig å slette studenten.");
-  print ("Student $brukernavn er slettet.");
+  mysqli_query($db, $sql) or die("Ikke mulig å slette student.");
+  print("Studenten med brukernavn $brukernavn er nå slettet.");
 }
 ?>

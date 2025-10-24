@@ -11,19 +11,13 @@
   <h3 style="margin: 0;">Slett klasse</h3>
 </div>
 
-<form method="post" action="" onsubmit="return confirm('Er du sikker på at du vil slette klassen?');">
+<form method="post" action="" onsubmit="return confirm('Er du sikker på at du vil slette denne klassen?');">
+  Velg klasse:
   <select name="klassekode" required>
     <option value="">Velg klasse</option>
-    <?php
-      include("db-tilkobling.php");
-      $sql = "SELECT * FROM klasse;";
-      $resultat = mysqli_query($db, $sql);
-      while ($rad = mysqli_fetch_array($resultat)) {
-        $kode = $rad["klassekode"];
-        print ("<option value='$kode'>$kode</option>");
-      }
-    ?>
+    <?php include("dynamiske-funksjoner.php"); listeboksKlassekode(); ?>
   </select>
+  <br/><br/>
   <input type="submit" name="slettKlasseKnapp" value="Slett klasse" />
 </form>
 
@@ -32,17 +26,17 @@ if (isset($_POST["slettKlasseKnapp"])) {
   $klassekode = $_POST["klassekode"];
   include("db-tilkobling.php");
 
-  // sjekk om studenter finnes i klassen
+  // sjekk om det finnes studenter i klassen først
   $sql = "SELECT * FROM student WHERE klassekode='$klassekode';";
   $resultat = mysqli_query($db, $sql);
   $antall = mysqli_num_rows($resultat);
 
   if ($antall > 0) {
-    print ("Kan ikke slette klassen fordi det finnes studenter i den.");
+    print("Kan ikke slette klasse $klassekode fordi den inneholder studenter.");
   } else {
     $sql = "DELETE FROM klasse WHERE klassekode='$klassekode';";
     mysqli_query($db, $sql) or die("Ikke mulig å slette klassen.");
-    print ("Klasse $klassekode er slettet.");
+    print("Klassen $klassekode er nå slettet.");
   }
 }
 ?>
