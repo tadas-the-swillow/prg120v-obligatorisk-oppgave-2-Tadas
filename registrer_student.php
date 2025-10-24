@@ -12,26 +12,19 @@
 </div>
 
 <form method="post" action="">
-  Brukernavn <input type="text" name="brukernavn" required /> <br/>
-  Fornavn <input type="text" name="fornavn" required /> <br/>
-  Etternavn <input type="text" name="etternavn" required /> <br/>
+  Brukernavn <input type="text" name="brukernavn" required /><br/>
+  Fornavn <input type="text" name="fornavn" required /><br/>
+  Etternavn <input type="text" name="etternavn" required /><br/>
   Klassekode 
-  <select name="klassekode" required>
-    <option value="">Velg klasse</option>
-    <?php
-      include("db-tilkobling.php");
-      $sql = "SELECT * FROM klasse;";
-      $resultat = mysqli_query($db, $sql);
-      while ($rad = mysqli_fetch_array($resultat)) {
-        $kode = $rad["klassekode"];
-        print ("<option value='$kode'>$kode</option>");
-      }
+  <select name="klassekode">
+    <?php 
+      include("dynamiske-funksjoner.php"); 
+      listeboksKlassekode(); 
     ?>
-  </select>
-  <br/>
+  </select><br/>
   <input type="submit" name="registrerStudentKnapp" value="Registrer student" />
-  <input type="reset" value="Nullstill" />
 </form>
+
 
 <?php
 if (isset($_POST["registrerStudentKnapp"])) {
