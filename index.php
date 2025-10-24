@@ -2,7 +2,7 @@
 <html lang="no">
 <head>
   <meta charset="UTF-8">
-  <title>PRG120V - Vedlikehold</title>
+  <title>PRG120V - Obligatorisk oppgave 2</title>
 </head>
 <body style="font-family: Arial, sans-serif; background-color: #f2f2f2; margin: 0; padding: 20px;">
 
